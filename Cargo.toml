@@ -1,9 +1,15 @@
 [package]
 name = "bmi160"
 version = "0.1.0"
-authors = ["Brad Egler <begler@gmail.com>"]
+authors = ["Brad Egler <brad.egler@pickatto.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+embedded-hal = "0.2.3"
+byteorder  = { version = "1.3.2", default-features = false }
+libm = "0.1.4"
+
+[dependencies.cortex-m-semihosting]
+version = "0.3.5"
