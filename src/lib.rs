@@ -9,4 +9,5 @@
 
 #![no_std]
 
+pub mod config;
 pub mod i2c;
