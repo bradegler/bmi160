@@ -114,13 +114,13 @@ where
     let mut buf: [u8; 1] = [0; 1];
     i2c.write_read(self.addr, &[Register::Error.addr()], &mut buf)?;
     let data = (buf[0] >> 1) & ERR_REG_MASK;
-    if (data == 1) {
+    if data == 1 {
       hprintln!("BMI160: Accel ODR + BW Invalid").unwrap();
-    } else if (data == 2) {
+    } else if data == 2 {
       hprintln!("BMI160: Gyro ODR + BW Invalid").unwrap();
-    } else if (data == 3) {
+    } else if data == 3 {
       hprintln!("BMI160: Prefilter Interrupt Invalid").unwrap();
-    } else if (data == 7) {
+    } else if data == 7 {
       hprintln!("BMI160: Prefilter Invalid").unwrap();
     }
     Ok(())
