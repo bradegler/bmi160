@@ -12,9 +12,9 @@ Read the detailed documentation [here](https://docs.rs/bmi160/)
 
 ## What works
 
-- [] Configure device
-- [] Direct read accelerometer data
-- [] Direct read gyroscope data
+- [x] Configure device
+- [x] Direct read accelerometer data
+- [x] Direct read gyroscope data
 - [] Enable interrupt processing
 
 ## License
@@ -31,3 +31,5 @@ at your option.
 ## Resources
 
 BMI160 - [Data Sheet](https://ae-bst.resource.bosch.com/media/_tech/media/datasheets/BST-BMI160-DS000.pdf)
+
+Based on [Bosch C Driver](https://github.com/BoschSensortec/BMI160_driver)
