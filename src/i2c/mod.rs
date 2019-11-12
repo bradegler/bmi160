@@ -10,6 +10,8 @@ const I2C_ADDRESS_PRIMARY: u8 = 0x68;
 //const I2C_ADDRESS_SECONDARY: u8 = 0x69;
 const BMI160_CHIP_ID: u8 = 0xD1;
 
+const ERR_REG_MASK: u8 = 0x0F;
+
 pub struct BMI160Reading {
   pub accel_x: i16,
   pub accel_y: i16,
@@ -28,6 +30,7 @@ enum Command {
 #[derive(Copy, Clone)]
 enum Register {
   ChipId = 0x00,
+  Error = 0x02,
   Command = 0x7E,
   GyroData = 0x0C,
   // AccelData = 0x12,
@@ -102,6 +105,24 @@ where
     self.set_accel_power_mode(i2c, delay)?;
     // Set gyro power mode
     self.set_gyro_power_mode(i2c, delay)?;
+    // Check for invalid setting combinations
+    self.check_config(i2c)?;
+    Ok(())
+  }
+
+  fn check_config(&self, i2c: &mut I2C) -> Result<(), E> {
+    let mut buf: [u8; 1] = [0; 1];
+    i2c.write_read(self.addr, &[Register::Error.addr()], &mut buf)?;
+    let data = (buf[0] >> 1) & ERR_REG_MASK;
+    if (data == 1) {
+      hprintln!("BMI160: Accel ODR + BW Invalid").unwrap();
+    } else if (data == 2) {
+      hprintln!("BMI160: Gyro ODR + BW Invalid").unwrap();
+    } else if (data == 3) {
+      hprintln!("BMI160: Prefilter Interrupt Invalid").unwrap();
+    } else if (data == 7) {
+      hprintln!("BMI160: Prefilter Invalid").unwrap();
+    }
     Ok(())
   }
 
